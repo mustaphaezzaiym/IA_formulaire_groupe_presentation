@@ -198,11 +198,6 @@
   <!-- SECTION 1 -->
   <div class="section active" id="sec1">
     <div class="section-header"><span class="section-num">01 / 05</span><h2 class="section-title">Informations du groupe</h2></div>
-    <div class="field">
-      <label>Nom du groupe</label>
-      <input type="text" id="nom_groupe" readonly style="background:#f0ece0;color:var(--muted);cursor:default" />
-      <div class="field-hint">Attribué automatiquement à l'inscription.</div>
-    </div>
     <div class="field-row">
       <div class="field">
         <label>Nom du responsable <span class="req">*</span></label>
@@ -352,7 +347,7 @@
 // ════════════════════════════════════════════════════════
 // ⚠ REMPLACEZ CETTE URL par celle de votre déploiement
 // ════════════════════════════════════════════════════════
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZSdCTJr-xSqco-30Q3AymtVM9oQg1jML67FtoZvp_tKzVCWHXmU5GRlJTs4Zvt6Rk_g/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyaDx8QHiVCSNWG-M0BefIGhKBjYHmeO7Ey9FbNNqu1RA2LXanlCtxEdLRxPUkROEQ7Dw/exec";
 
 let current = 1;
 let choice1 = '', choice2 = '';
@@ -360,22 +355,8 @@ const MAX = 16;
 let serverCounts = { "13/06/2027": 0, "20/06/2027": 0, "27/06/2027": 0 };
 
 // Charger les places dès l'ouverture
-window.addEventListener('load', () => { loadCounts(); assignGroupName(); });
+window.addEventListener('load', () => { loadCounts(); });
 
-async function assignGroupName() {
-  let nextNum = 1;
-  try {
-    const res = await fetch(SCRIPT_URL, { method: 'GET' });
-    const data = await res.json();
-    // total = somme des inscrits sur les 3 dates
-    const counts = data.counts || {};
-    const total = (counts["13/06/2027"] || 0) + (counts["20/06/2027"] || 0) + (counts["27/06/2027"] || 0);
-    nextNum = total + 1;
-  } catch(e) {
-    nextNum = 1;
-  }
-  document.getElementById('nom_groupe').value = 'Groupe ' + nextNum;
-}
 
 async function loadCounts() {
   if (SCRIPT_URL === "VOTRE_URL_APPS_SCRIPT_ICI") {
@@ -501,7 +482,6 @@ function selectDate(el, choice) {
 
 function updateRecap() {
   const members=['m1','m2','m3','m4','m5'].map(m=>document.getElementById(m+'_nom').value.trim()).filter(Boolean).join(', ');
-  document.getElementById('rc-groupe').textContent=document.getElementById('nom_groupe').value||'—';
   document.getElementById('rc-resp').textContent=document.getElementById('nom_resp').value||'—';
   document.getElementById('rc-membres').textContent=members||'—';
   document.getElementById('rc-projet').textContent=document.getElementById('titre_projet').value||'—';
@@ -517,7 +497,6 @@ async function submitForm() {
   errCb.style.display='none';
 
   const payload = {
-    nom_groupe: document.getElementById('nom_groupe').value,
     nom_resp: document.getElementById('nom_resp').value,
     email_resp: document.getElementById('email_resp').value,
     m1_nom: document.getElementById('m1_nom').value, m1_cne: document.getElementById('m1_cne').value,
@@ -564,7 +543,6 @@ function showSuccess(payload, data) {
     <div class="recap-row"><span class="recap-key">Membre ${i+1}</span><span class="recap-val">${payload[m+'_nom']}</span></div>`).join('');
   document.getElementById('final-recap').innerHTML=`
     <div class="recap-label">Votre inscription</div>
-    <div class="recap-row"><span class="recap-key">Groupe</span><span class="recap-val">${payload.nom_groupe}</span></div>
     <div class="recap-row"><span class="recap-key">Responsable</span><span class="recap-val">${payload.nom_resp}</span></div>
     ${members}
     <div class="recap-row"><span class="recap-key">Projet</span><span class="recap-val">${payload.titre_projet}</span></div>
