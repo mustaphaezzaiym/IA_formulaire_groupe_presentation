@@ -173,7 +173,7 @@
   <div class="dates-bar-inner">
     <span class="dates-label">Dates disponibles</span>
     <div class="date-chips" id="status-chips">
-      <span class="date-chip open"><span class="chip-dot open"></span>13/06/2027 — chargement…</span>
+      <span class="date-chip open"><span class="chip-dot open"></span>13/06/2026 — chargement…</span>
     </div>
   </div>
 </div>
@@ -271,9 +271,9 @@
     <div class="field" style="margin-bottom:1.75rem">
       <label>1<sup>er</sup> choix <span class="req">*</span></label>
       <div class="date-options" id="date-opts-1">
-        <div class="date-opt" data-date="13/06/2027" onclick="selectDate(this,1)"><div class="date-day">13</div><div class="date-month">Juin 2027</div><div class="date-spots" id="spots-13">—</div></div>
-        <div class="date-opt" data-date="20/06/2027" onclick="selectDate(this,1)"><div class="date-day">20</div><div class="date-month">Juin 2027</div><div class="date-spots" id="spots-20">—</div></div>
-        <div class="date-opt" data-date="27/06/2027" onclick="selectDate(this,1)"><div class="date-day">27</div><div class="date-month">Juin 2027</div><div class="date-spots" id="spots-27">—</div></div>
+        <div class="date-opt" data-date="13/06/2026" onclick="selectDate(this,1)"><div class="date-day">13</div><div class="date-month">Juin 2026</div><div class="date-spots" id="spots-13">—</div></div>
+        <div class="date-opt" data-date="20/06/2026" onclick="selectDate(this,1)"><div class="date-day">20</div><div class="date-month">Juin 2026</div><div class="date-spots" id="spots-20">—</div></div>
+        <div class="date-opt" data-date="27/06/2026" onclick="selectDate(this,1)"><div class="date-day">27</div><div class="date-month">Juin 2026</div><div class="date-spots" id="spots-27">—</div></div>
       </div>
       <div class="date-legend"><span class="legend-item"><span class="legend-swatch first"></span>1er choix</span><span class="legend-item"><span class="legend-swatch second"></span>2e choix</span></div>
       <div class="field-error" id="err-date1">Veuillez sélectionner votre 1er choix.</div>
@@ -281,9 +281,9 @@
     <div class="field">
       <label>2<sup>ème</sup> choix <span class="req">*</span></label>
       <div class="date-options" id="date-opts-2">
-        <div class="date-opt" data-date="13/06/2027" onclick="selectDate(this,2)"><div class="date-day">13</div><div class="date-month">Juin 2027</div></div>
-        <div class="date-opt" data-date="20/06/2027" onclick="selectDate(this,2)"><div class="date-day">20</div><div class="date-month">Juin 2027</div></div>
-        <div class="date-opt" data-date="27/06/2027" onclick="selectDate(this,2)"><div class="date-day">27</div><div class="date-month">Juin 2027</div></div>
+        <div class="date-opt" data-date="13/06/2026" onclick="selectDate(this,2)"><div class="date-day">13</div><div class="date-month">Juin 2026</div></div>
+        <div class="date-opt" data-date="20/06/2026" onclick="selectDate(this,2)"><div class="date-day">20</div><div class="date-month">Juin 2026</div></div>
+        <div class="date-opt" data-date="27/06/2026" onclick="selectDate(this,2)"><div class="date-day">27</div><div class="date-month">Juin 2026</div></div>
       </div>
       <div class="field-error" id="err-date2">Le 2ème choix doit être différent du 1er.</div>
     </div>
@@ -352,7 +352,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUkFrl3Bjde6nqe1APP
 let current = 1;
 let choice1 = '', choice2 = '';
 const MAX = 16;
-let serverCounts = { "13/06/2027": 0, "20/06/2027": 0, "27/06/2027": 0 };
+let serverCounts = { "13/06/2026": 0, "20/06/2026": 0, "27/06/2026": 0 };
 
 // Charger les places dès l'ouverture
 window.addEventListener('load', () => { loadCounts(); });
@@ -360,7 +360,7 @@ window.addEventListener('load', () => { loadCounts(); });
 
 async function loadCounts() {
   if (SCRIPT_URL === "VOTRE_URL_APPS_SCRIPT_ICI") {
-    renderChips({ "13/06/2027": false, "20/06/2027": false, "27/06/2027": false });
+    renderChips({ "13/06/2026": false, "20/06/2026": false, "27/06/2026": false });
     ["spots-13","spots-20","spots-27"].forEach(id => {
       document.getElementById(id).textContent = "16 places";
     });
@@ -374,12 +374,12 @@ async function loadCounts() {
     updateSpots(data.counts || {}, data.full || {});
     applyFullDates(data.full || {});
   } catch (e) {
-    renderChips({ "13/06/2027": false, "20/06/2027": false, "27/06/2027": false });
+    renderChips({ "13/06/2026": false, "20/06/2026": false, "27/06/2026": false });
   }
 }
 
 function renderChips(full) {
-  const dates = ["13/06/2027","20/06/2027","27/06/2027"];
+  const dates = ["13/06/2026","20/06/2026","27/06/2026"];
   document.getElementById('status-chips').innerHTML = dates.map(d => {
     const f = full[d];
     return `<span class="date-chip ${f?'full':'open'}"><span class="chip-dot ${f?'full':'open'}"></span>${d}${f?' — Complet':''}</span>`;
@@ -387,7 +387,7 @@ function renderChips(full) {
 }
 
 function updateSpots(counts, full) {
-  const map = { "13/06/2027":"spots-13","20/06/2027":"spots-20","27/06/2027":"spots-27" };
+  const map = { "13/06/2026":"spots-13","20/06/2026":"spots-20","27/06/2026":"spots-27" };
   Object.entries(map).forEach(([date, id]) => {
     const el = document.getElementById(id);
     if (!el) return;
