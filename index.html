@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscription — Présentations de projets doctoraux</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f7f4ee;
+    --accent: #1a3a2a;
+    --accent-light: #2d6648;
+    --rule: #c8bfaa;
+    --muted: #7a7060;
+    --danger: #8b1a1a;
+    --field-bg: #ffffff;
+    --section-bg: #eeead9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+
+  /* ── HEADER ── */
+  .masthead { background: var(--accent); color: var(--paper); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+  .masthead::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.04) 39px, rgba(255,255,255,0.04) 40px); }
+  .masthead-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+  .masthead-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #8fbb9f; margin-bottom: 0.75rem; }
+  .masthead h1 { font-family: 'Playfair Display', serif; font-size: clamp(22px, 4vw, 36px); font-weight: 600; line-height: 1.2; color: #f7f4ee; margin-bottom: 1rem; }
+  .masthead-meta { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .meta-pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; padding: 0.3rem 0.8rem; font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: #c8e6d4; }
+
+  /* ── DATES BAR ── */
+  .dates-bar { background: var(--ink); padding: 0.85rem 2rem; }
+  .dates-bar-inner { max-width: 720px; margin: 0 auto; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .dates-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #7a7060; flex-shrink: 0; }
+  .date-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .date-chip { display: flex; align-items: center; gap: 0.4rem; font-family: 'IBM Plex Mono', monospace; font-size: 12px; padding: 0.3rem 0.75rem; border-radius: 2px; border: 1px solid; }
+  .date-chip.open { background: rgba(45,102,72,0.2); border-color: #2d6648; color: #8fbb9f; }
+  .date-chip.full { background: rgba(139,26,26,0.15); border-color: #8b1a1a; color: #c47070; }
+  .chip-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .chip-dot.open { background: #4caf7a; }
+  .chip-dot.full { background: #c47070; }
+
+  /* ── MAIN ── */
+  .form-wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* ── PROGRESS ── */
+  .progress-track { display: flex; align-items: center; margin-bottom: 2.5rem; padding: 1.25rem 1.5rem; background: var(--field-bg); border: 1px solid var(--rule); }
+  .progress-step { display: flex; align-items: center; flex: 1; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--section-bg); border: 1.5px solid var(--rule); display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; color: var(--muted); flex-shrink: 0; transition: all 0.3s; }
+  .step-num.active { background: var(--accent); border-color: var(--accent); color: #f7f4ee; }
+  .step-num.done { background: var(--accent-light); border-color: var(--accent-light); color: #f7f4ee; }
+  .step-label { font-size: 11px; color: var(--muted); margin-left: 8px; white-space: nowrap; }
+  .step-label.active { color: var(--accent); font-weight: 500; }
+  .step-line { flex: 1; height: 1px; background: var(--rule); margin: 0 8px; }
+
+  /* ── SECTIONS ── */
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--ink); }
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; }
+
+  /* ── FIELDS ── */
+  .field { margin-bottom: 1.25rem; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+  label { display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+  label .req { color: var(--danger); margin-left: 3px; }
+  input[type="text"], input[type="email"], select { width: 100%; height: 42px; padding: 0 12px; background: var(--field-bg); border: 1px solid var(--rule); border-radius: 0; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; color: var(--ink); outline: none; transition: border-color 0.2s; -webkit-appearance: none; appearance: none; }
+  input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,58,42,0.08); }
+  input.error, select.error { border-color: var(--danger); }
+  input::placeholder { color: #bbb3a0; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+  .field-hint { font-size: 12px; color: var(--muted); margin-top: 5px; }
+  .field-error { font-size: 12px; color: var(--danger); margin-top: 5px; display: none; }
+
+  /* ── MEMBERS ── */
+  .members-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .member-card { background: var(--field-bg); border: 1px solid var(--rule); padding: 1rem; }
+  .member-card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; }
+  .member-badge { width: 22px; height: 22px; background: var(--accent); color: #f7f4ee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; flex-shrink: 0; }
+  .member-label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+  .member-req { font-size: 10px; color: var(--danger); margin-left: auto; }
+
+  /* ── RULES ── */
+  .rules-box { background: var(--section-bg); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+  .rules-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .rules-list { list-style: none; }
+  .rules-list li { font-size: 13px; padding: 0.3rem 0; display: flex; gap: 0.6rem; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .rules-list li:last-child { border-bottom: none; }
+  .rules-list .icon { color: var(--accent-light); flex-shrink: 0; }
+
+  /* ── DATE SELECTION ── */
+  .date-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .date-opt { border: 1.5px solid var(--rule); padding: 1rem; cursor: pointer; text-align: center; transition: all 0.2s; background: var(--field-bg); position: relative; }
+  .date-opt:hover:not(.disabled) { border-color: var(--accent-light); }
+  .date-opt.selected-first { border-color: var(--accent); background: rgba(26,58,42,0.05); }
+  .date-opt.selected-second { border-color: #8b5a2b; background: rgba(139,90,43,0.05); }
+  .date-opt.disabled { opacity: 0.45; cursor: not-allowed; background: #f0ece0; }
+  .date-opt .date-day { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 500; line-height: 1; }
+  .date-opt .date-month { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 4px; }
+  .date-opt .date-spots { font-size: 11px; color: var(--muted); margin-top: 6px; font-family: 'IBM Plex Mono', monospace; }
+  .date-opt .date-badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 10px; padding: 2px 8px; border-radius: 2px; font-family: 'IBM Plex Mono', monospace; white-space: nowrap; }
+  .date-badge.first { background: var(--accent); color: #f7f4ee; }
+  .date-badge.second { background: #8b5a2b; color: #f7f4ee; }
+  .date-badge.full-badge { background: var(--danger); color: #f7f4ee; }
+  .date-legend { display: flex; gap: 1.5rem; margin-top: 1rem; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .legend-swatch { width: 12px; height: 12px; border: 1.5px solid; }
+  .legend-swatch.first { border-color: var(--accent); background: rgba(26,58,42,0.1); }
+  .legend-swatch.second { border-color: #8b5a2b; background: rgba(139,90,43,0.1); }
+
+  /* ── NAVIGATION ── */
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); }
+  .btn { padding: 0.65rem 1.75rem; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid; border-radius: 0; transition: all 0.2s; }
+  .btn-ghost { background: transparent; border-color: var(--rule); color: var(--muted); }
+  .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #f7f4ee; }
+  .btn-primary:hover { background: var(--accent-light); border-color: var(--accent-light); }
+  .btn-submit { background: var(--accent); border-color: var(--accent); color: #f7f4ee; padding: 0.75rem 2.5rem; font-size: 14px; }
+  .btn-submit:hover:not(:disabled) { background: var(--accent-light); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* ── RECAP ── */
+  .recap-box { margin-bottom: 1.5rem; background: var(--field-bg); border: 1px solid var(--rule); padding: 1.25rem 1.5rem; }
+  .recap-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+  .recap-row { display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid #eee; font-size: 13px; }
+  .recap-row:last-child { border-bottom: none; }
+  .recap-key { color: var(--muted); }
+  .recap-val { font-weight: 500; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+
+  /* ── NOTICE ── */
+  .notice { background: rgba(26,58,42,0.06); border: 1px solid rgba(26,58,42,0.2); padding: 0.75rem 1rem; font-size: 13px; color: var(--accent); margin-bottom: 1.25rem; display: flex; gap: 0.5rem; align-items: flex-start; }
+
+  /* ── LOADING / SUCCESS / ERROR ── */
+  .submitting-overlay { display: none; text-align: center; padding: 2rem; }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--rule); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .success-screen { display: none; text-align: center; padding: 3rem 1rem; }
+  .success-icon { width: 60px; height: 60px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 26px; color: #f7f4ee; }
+  .success-screen h2 { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 0.75rem; }
+  .success-screen p { color: var(--muted); font-size: 14px; max-width: 440px; margin: 0 auto 1.5rem; }
+  .error-banner { display: none; background: #fcebeb; border: 1px solid #f09595; padding: 0.75rem 1rem; font-size: 13px; color: #791f1f; margin-top: 1rem; }
+
+  /* ── CONFIG BANNER ── */
+  .config-banner { background: #FAEEDA; border: 1px solid #EF9F27; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 13px; color: #412402; }
+  .config-banner strong { display: block; margin-bottom: 4px; font-size: 14px; }
+  .config-banner code { background: rgba(0,0,0,0.08); padding: 1px 5px; border-radius: 2px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+
+  @media (max-width: 580px) {
+    .field-row, .members-grid, .date-options { grid-template-columns: 1fr; }
+    .progress-track { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-eyebrow">Module: Introduction à l'intelligence artificielle et à la propriété intellectuelle</div>
+    <h1>Inscription des groupes<br>aux séances de présentation</h1>
+    <div class="masthead-meta">
+      <span class="meta-pill">234 doctorants</span>
+      <span class="meta-pill">Groupes de 5</span>
+      <span class="meta-pill">10 min / groupe</span>
+      <span class="meta-pill">≤ 16 groupes / date</span>
+    </div>
+  </div>
+</div>
+
+<div class="dates-bar">
+  <div class="dates-bar-inner">
+    <span class="dates-label">Dates disponibles</span>
+    <div class="date-chips" id="status-chips">
+      <span class="date-chip open"><span class="chip-dot open"></span>13/06/2027 — chargement…</span>
+    </div>
+  </div>
+</div>
+
+<div class="form-wrap">
+
+
+
+  <!-- PROGRESS -->
+  <div class="progress-track">
+    <div class="progress-step"><div class="step-num active" id="step-n1">1</div><span class="step-label active" id="step-l1">Groupe</span></div>
+    <div class="step-line"></div>
+    <div class="progress-step"><div class="step-num" id="step-n2">2</div><span class="step-label" id="step-l2">Membres</span></div>
+    <div class="step-line"></div>
+    <div class="progress-step"><div class="step-num" id="step-n3">3</div><span class="step-label" id="step-l3">Présentation</span></div>
+    <div class="step-line"></div>
+    <div class="progress-step"><div class="step-num" id="step-n4">4</div><span class="step-label" id="step-l4">Dates</span></div>
+    <div class="step-line"></div>
+    <div class="progress-step"><div class="step-num" id="step-n5">5</div><span class="step-label" id="step-l5">Règles</span></div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section active" id="sec1">
+    <div class="section-header"><span class="section-num">01 / 05</span><h2 class="section-title">Informations du groupe</h2></div>
+    <div class="field">
+      <label>Nom du groupe</label>
+      <input type="text" id="nom_groupe" readonly style="background:#f0ece0;color:var(--muted);cursor:default" />
+      <div class="field-hint">Attribué automatiquement à l'inscription.</div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Nom du responsable <span class="req">*</span></label>
+        <input type="text" id="nom_resp" placeholder="Nom et prénom" />
+        <div class="field-error" id="err-nom_resp">Ce champ est obligatoire.</div>
+      </div>
+      <div class="field">
+        <label>E-mail du responsable <span class="req">*</span></label>
+        <input type="email" id="email_resp" placeholder="prenom.nom@univ.ma" />
+        <div class="field-error" id="err-email_resp">Adresse e-mail invalide.</div>
+      </div>
+    </div>
+    <div class="nav-row"><span></span><button class="btn btn-primary" onclick="goTo(2)">Suivant →</button></div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section" id="sec2">
+    <div class="section-header"><span class="section-num">02 / 05</span><h2 class="section-title">Membres du groupe</h2></div>
+    <div class="notice">ℹ Le groupe doit contenir exactement 5 doctorants. Tous les champs sont obligatoires.</div>
+    <div class="members-grid">
+      <div class="member-card">
+        <div class="member-card-header"><div class="member-badge">1</div><span class="member-label">Doctorant 1</span><span class="member-req">obligatoire</span></div>
+        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet <span class="req">*</span></label><input type="text" id="m1_nom" placeholder="Nom et prénom" /><div class="field-error" id="err-m1_nom">Champ requis.</div></div>
+        <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m1_cne" placeholder="G123456789" /><div class="field-error" id="err-m1_cne">Champ requis.</div></div>
+      </div>
+      <div class="member-card">
+        <div class="member-card-header"><div class="member-badge">2</div><span class="member-label">Doctorant 2</span><span class="member-req">obligatoire</span></div>
+        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet <span class="req">*</span></label><input type="text" id="m2_nom" placeholder="Nom et prénom" /><div class="field-error" id="err-m2_nom">Champ requis.</div></div>
+        <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m2_cne" placeholder="G123456789" /><div class="field-error" id="err-m2_cne">Champ requis.</div></div>
+      </div>
+      <div class="member-card">
+        <div class="member-card-header"><div class="member-badge">3</div><span class="member-label">Doctorant 3</span><span class="member-req">obligatoire</span></div>
+        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet <span class="req">*</span></label><input type="text" id="m3_nom" placeholder="Nom et prénom" /><div class="field-error" id="err-m3_nom">Champ requis.</div></div>
+        <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m3_cne" placeholder="G123456789" /><div class="field-error" id="err-m3_cne">Champ requis.</div></div>
+      </div>
+      <div class="member-card">
+        <div class="member-card-header"><div class="member-badge">4</div><span class="member-label">Doctorant 4</span><span class="member-req">obligatoire</span></div>
+        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet <span class="req">*</span></label><input type="text" id="m4_nom" placeholder="Nom et prénom" /><div class="field-error" id="err-m4_nom">Champ requis.</div></div>
+        <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m4_cne" placeholder="G123456789" /><div class="field-error" id="err-m4_cne">Champ requis.</div></div>
+      </div>
+      <div class="member-card" style="grid-column:1/-1;max-width:calc(50% - 0.5rem)">
+        <div class="member-card-header"><div class="member-badge">5</div><span class="member-label">Doctorant 5</span><span class="member-req">obligatoire</span></div>
+        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet <span class="req">*</span></label><input type="text" id="m5_nom" placeholder="Nom et prénom" /><div class="field-error" id="err-m5_nom">Champ requis.</div></div>
+        <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m5_cne" placeholder="G123456789" /><div class="field-error" id="err-m5_cne">Champ requis.</div></div>
+      </div>
+    </div>
+    <div class="nav-row"><button class="btn btn-ghost" onclick="goTo(1)">← Retour</button><button class="btn btn-primary" onclick="goTo(3)">Suivant →</button></div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section" id="sec3">
+    <div class="section-header"><span class="section-num">03 / 05</span><h2 class="section-title">Présentation</h2></div>
+    <div class="field">
+      <label>Titre du projet <span class="req">*</span></label>
+      <input type="text" id="titre_projet" placeholder="Titre complet de votre projet de recherche" />
+      <div class="field-error" id="err-titre_projet">Ce champ est obligatoire.</div>
+    </div>
+    <div class="field">
+      <label>Nom du présentateur <span class="req">*</span></label>
+      <select id="presentateur"><option value="">— Sélectionner parmi les membres du groupe —</option></select>
+      <div class="field-hint">Doit être l'un des 5 membres. Un seul présentateur autorisé.</div>
+      <div class="field-error" id="err-presentateur">Veuillez sélectionner un présentateur.</div>
+    </div>
+    <div class="nav-row"><button class="btn btn-ghost" onclick="goTo(2)">← Retour</button><button class="btn btn-primary" onclick="goTo(4)">Suivant →</button></div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section" id="sec4">
+    <div class="section-header"><span class="section-num">04 / 05</span><h2 class="section-title">Choix des dates</h2></div>
+    <div class="notice">ℹ L'affectation finale dépendra des places disponibles. Vos préférences seront respectées dans la mesure du possible.</div>
+    <div class="field" style="margin-bottom:1.75rem">
+      <label>1<sup>er</sup> choix <span class="req">*</span></label>
+      <div class="date-options" id="date-opts-1">
+        <div class="date-opt" data-date="13/06/2027" onclick="selectDate(this,1)"><div class="date-day">13</div><div class="date-month">Juin 2027</div><div class="date-spots" id="spots-13">—</div></div>
+        <div class="date-opt" data-date="20/06/2027" onclick="selectDate(this,1)"><div class="date-day">20</div><div class="date-month">Juin 2027</div><div class="date-spots" id="spots-20">—</div></div>
+        <div class="date-opt" data-date="27/06/2027" onclick="selectDate(this,1)"><div class="date-day">27</div><div class="date-month">Juin 2027</div><div class="date-spots" id="spots-27">—</div></div>
+      </div>
+      <div class="date-legend"><span class="legend-item"><span class="legend-swatch first"></span>1er choix</span><span class="legend-item"><span class="legend-swatch second"></span>2e choix</span></div>
+      <div class="field-error" id="err-date1">Veuillez sélectionner votre 1er choix.</div>
+    </div>
+    <div class="field">
+      <label>2<sup>ème</sup> choix <span class="req">*</span></label>
+      <div class="date-options" id="date-opts-2">
+        <div class="date-opt" data-date="13/06/2027" onclick="selectDate(this,2)"><div class="date-day">13</div><div class="date-month">Juin 2027</div></div>
+        <div class="date-opt" data-date="20/06/2027" onclick="selectDate(this,2)"><div class="date-day">20</div><div class="date-month">Juin 2027</div></div>
+        <div class="date-opt" data-date="27/06/2027" onclick="selectDate(this,2)"><div class="date-day">27</div><div class="date-month">Juin 2027</div></div>
+      </div>
+      <div class="field-error" id="err-date2">Le 2ème choix doit être différent du 1er.</div>
+    </div>
+    <div class="nav-row"><button class="btn btn-ghost" onclick="goTo(3)">← Retour</button><button class="btn btn-primary" onclick="goTo(5)">Suivant →</button></div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section" id="sec5">
+    <div class="section-header"><span class="section-num">05 / 05</span><h2 class="section-title">Règles et confirmation</h2></div>
+    <div class="rules-box">
+      <div class="rules-title">Règles obligatoires</div>
+      <ul class="rules-list">
+        <li><span class="icon">→</span>Chaque groupe doit être composé de <strong>exactement 5 doctorants</strong>.</li>
+        <li><span class="icon">→</span><strong>Une seule soumission par groupe.</strong> Les doublons seront annulés.</li>
+        <li><span class="icon">→</span>Durée de présentation : <strong>10 minutes</strong> par groupe.</li>
+        <li><span class="icon">→</span><strong>Un seul présentateur</strong> autorisé par groupe le jour de la séance.</li>
+        <li><span class="icon">→</span>Une date sera <strong>fermée</strong> automatiquement dès qu'elle atteint 16 groupes.</li>
+      </ul>
+    </div>
+    <div class="recap-box" id="recap-box">
+      <div class="recap-label">Récapitulatif</div>
+      <div class="recap-row"><span class="recap-key">Groupe</span><span class="recap-val" id="rc-groupe">—</span></div>
+      <div class="recap-row"><span class="recap-key">Responsable</span><span class="recap-val" id="rc-resp">—</span></div>
+      <div class="recap-row"><span class="recap-key">Membres</span><span class="recap-val" id="rc-membres">—</span></div>
+      <div class="recap-row"><span class="recap-key">Projet</span><span class="recap-val" id="rc-projet">—</span></div>
+      <div class="recap-row"><span class="recap-key">Présentateur</span><span class="recap-val" id="rc-pres">—</span></div>
+      <div class="recap-row"><span class="recap-key">1er choix</span><span class="recap-val" id="rc-d1">—</span></div>
+      <div class="recap-row"><span class="recap-key">2ème choix</span><span class="recap-val" id="rc-d2">—</span></div>
+    </div>
+    <div class="field">
+      <label style="display:flex;gap:0.6rem;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;color:var(--ink)">
+        <input type="checkbox" id="confirm_rules" style="width:auto;height:auto;flex-shrink:0;margin-top:3px" />
+        J'atteste que les informations sont exactes, que mon groupe est composé de 5 doctorants, et que nous avons lu les règles ci-dessus.
+      </label>
+      <div class="field-error" id="err-confirm">Vous devez cocher cette case.</div>
+    </div>
+    <div class="error-banner" id="error-banner">Une erreur est survenue lors de l'envoi. Veuillez réessayer ou contacter l'organisateur.</div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goTo(4)">← Retour</button>
+      <button class="btn btn-submit" id="submit-btn" onclick="submitForm()">Soumettre l'inscription ✓</button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="submitting-overlay" id="submitting">
+    <div class="spinner"></div>
+    <p style="color:var(--muted);font-size:14px">Envoi en cours…</p>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success">
+    <div class="success-icon">✓</div>
+    <h2>Inscription enregistrée</h2>
+    <p>Votre groupe a bien été inscrit dans Google Sheets. Un e-mail de confirmation a été envoyé à l'adresse du responsable.</p>
+    <div class="recap-box" id="final-recap" style="max-width:480px;margin:0 auto;text-align:left"></div>
+  </div>
+
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+// ⚠ REMPLACEZ CETTE URL par celle de votre déploiement
+// ════════════════════════════════════════════════════════
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyaDx8QHiVCSNWG-M0BefIGhKBjYHmeO7Ey9FbNNqu1RA2LXanlCtxEdLRxPUkROEQ7Dw/exec";
+
+let current = 1;
+let choice1 = '', choice2 = '';
+const MAX = 16;
+let serverCounts = { "13/06/2027": 0, "20/06/2027": 0, "27/06/2027": 0 };
+
+// Charger les places dès l'ouverture
+window.addEventListener('load', () => { loadCounts(); assignGroupName(); });
+
+async function assignGroupName() {
+  let nextNum = 1;
+  try {
+    const res = await fetch(SCRIPT_URL, { method: 'GET' });
+    const data = await res.json();
+    // total = somme des inscrits sur les 3 dates
+    const counts = data.counts || {};
+    const total = (counts["13/06/2027"] || 0) + (counts["20/06/2027"] || 0) + (counts["27/06/2027"] || 0);
+    nextNum = total + 1;
+  } catch(e) {
+    nextNum = 1;
+  }
+  document.getElementById('nom_groupe').value = 'Groupe ' + nextNum;
+}
+
+async function loadCounts() {
+  if (SCRIPT_URL === "VOTRE_URL_APPS_SCRIPT_ICI") {
+    renderChips({ "13/06/2027": false, "20/06/2027": false, "27/06/2027": false });
+    ["spots-13","spots-20","spots-27"].forEach(id => {
+      document.getElementById(id).textContent = "16 places";
+    });
+    return;
+  }
+  try {
+    const res = await fetch(SCRIPT_URL, { method: 'GET' });
+    const data = await res.json();
+    serverCounts = data.counts || serverCounts;
+    renderChips(data.full || {});
+    updateSpots(data.counts || {}, data.full || {});
+    applyFullDates(data.full || {});
+  } catch (e) {
+    renderChips({ "13/06/2027": false, "20/06/2027": false, "27/06/2027": false });
+  }
+}
+
+function renderChips(full) {
+  const dates = ["13/06/2027","20/06/2027","27/06/2027"];
+  document.getElementById('status-chips').innerHTML = dates.map(d => {
+    const f = full[d];
+    return `<span class="date-chip ${f?'full':'open'}"><span class="chip-dot ${f?'full':'open'}"></span>${d}${f?' — Complet':''}</span>`;
+  }).join('');
+}
+
+function updateSpots(counts, full) {
+  const map = { "13/06/2027":"spots-13","20/06/2027":"spots-20","27/06/2027":"spots-27" };
+  Object.entries(map).forEach(([date, id]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = full[date] ? "Complet" : `${MAX - (counts[date]||0)} place(s)`;
+    if (full[date]) el.style.color = "#8b1a1a";
+  });
+}
+
+function applyFullDates(full) {
+  document.querySelectorAll('.date-opt').forEach(opt => {
+    if (full[opt.dataset.date]) {
+      opt.classList.add('disabled');
+      if (!opt.querySelector('.date-badge.full-badge')) {
+        const b = document.createElement('div');
+        b.className = 'date-badge full-badge'; b.textContent = 'Complet';
+        opt.appendChild(b);
+      }
+    }
+  });
+}
+
+function goTo(n) {
+  if (n > current && !validate(current)) return;
+  if (n === 3) populatePresentateur();
+  if (n === 5) updateRecap();
+  document.getElementById('sec'+current).classList.remove('active');
+  document.getElementById('sec'+n).classList.add('active');
+  for (let i=1; i<=5; i++) {
+    const num = document.getElementById('step-n'+i);
+    const lbl = document.getElementById('step-l'+i);
+    num.className = 'step-num'+(i<n?' done':i===n?' active':'');
+    lbl.className = 'step-label'+(i===n?' active':'');
+    num.textContent = i<n ? '✓' : i;
+  }
+  current = n;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function validate(sec) {
+  let ok = true;
+  const req = (id, check) => {
+    const el = document.getElementById(id);
+    const err = document.getElementById('err-'+id);
+    if (!el||!err) return;
+    const pass = check ? check(el.value) : el.value.trim()!=='';
+    el.classList.toggle('error',!pass);
+    err.style.display = pass?'none':'block';
+    if (!pass) ok=false;
+  };
+  if (sec===1) { req('nom_resp'); req('email_resp',v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)); }
+  if (sec===2) { ['m1','m2','m3','m4','m5'].forEach(m=>{req(m+'_nom');req(m+'_cne');}); }
+  if (sec===3) { req('titre_projet'); req('presentateur',v=>v!==''); }
+  if (sec===4) {
+    const e1=document.getElementById('err-date1'), e2=document.getElementById('err-date2');
+    if (!choice1){e1.style.display='block';ok=false;}else{e1.style.display='none';}
+    if (!choice2||choice2===choice1){e2.style.display='block';ok=false;}else{e2.style.display='none';}
+  }
+  return ok;
+}
+
+function populatePresentateur() {
+  const sel = document.getElementById('presentateur');
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">— Sélectionner parmi les membres du groupe —</option>';
+  ['m1','m2','m3','m4','m5'].forEach(m => {
+    const n = document.getElementById(m+'_nom').value.trim();
+    if (n) { const o=document.createElement('option');o.value=n;o.textContent=n;if(n===prev)o.selected=true;sel.appendChild(o); }
+  });
+}
+
+function selectDate(el, choice) {
+  if (el.classList.contains('disabled')) return;
+  const date = el.dataset.date;
+  if (choice===1) {
+    choice1=date;
+    document.querySelectorAll('#date-opts-1 .date-opt').forEach(o=>{o.classList.remove('selected-first');const b=o.querySelector('.date-badge.first');if(b)b.remove();});
+    el.classList.add('selected-first');
+    const b=document.createElement('div');b.className='date-badge first';b.textContent='1er choix';el.appendChild(b);
+    document.querySelectorAll('#date-opts-2 .date-opt').forEach(o=>{
+      o.classList.toggle('disabled',o.dataset.date===date&&!serverCounts[o.dataset.date]>=MAX);
+      if(o.dataset.date===date){o.classList.add('disabled');if(choice2===date){choice2='';o.classList.remove('selected-second');const b2=o.querySelector('.date-badge.second');if(b2)b2.remove();}}
+      else if(!serverCounts[o.dataset.date]||serverCounts[o.dataset.date]<MAX){o.classList.remove('disabled');}
+    });
+  } else {
+    if (date===choice1) return;
+    choice2=date;
+    document.querySelectorAll('#date-opts-2 .date-opt').forEach(o=>{o.classList.remove('selected-second');const b=o.querySelector('.date-badge.second');if(b)b.remove();});
+    el.classList.add('selected-second');
+    const b=document.createElement('div');b.className='date-badge second';b.textContent='2e choix';el.appendChild(b);
+  }
+}
+
+function updateRecap() {
+  const members=['m1','m2','m3','m4','m5'].map(m=>document.getElementById(m+'_nom').value.trim()).filter(Boolean).join(', ');
+  document.getElementById('rc-groupe').textContent=document.getElementById('nom_groupe').value||'—';
+  document.getElementById('rc-resp').textContent=document.getElementById('nom_resp').value||'—';
+  document.getElementById('rc-membres').textContent=members||'—';
+  document.getElementById('rc-projet').textContent=document.getElementById('titre_projet').value||'—';
+  document.getElementById('rc-pres').textContent=document.getElementById('presentateur').value||'—';
+  document.getElementById('rc-d1').textContent=choice1||'—';
+  document.getElementById('rc-d2').textContent=choice2||'—';
+}
+
+async function submitForm() {
+  const cb=document.getElementById('confirm_rules');
+  const errCb=document.getElementById('err-confirm');
+  if(!cb.checked){errCb.style.display='block';return;}
+  errCb.style.display='none';
+
+  const payload = {
+    nom_groupe: document.getElementById('nom_groupe').value,
+    nom_resp: document.getElementById('nom_resp').value,
+    email_resp: document.getElementById('email_resp').value,
+    m1_nom: document.getElementById('m1_nom').value, m1_cne: document.getElementById('m1_cne').value,
+    m2_nom: document.getElementById('m2_nom').value, m2_cne: document.getElementById('m2_cne').value,
+    m3_nom: document.getElementById('m3_nom').value, m3_cne: document.getElementById('m3_cne').value,
+    m4_nom: document.getElementById('m4_nom').value, m4_cne: document.getElementById('m4_cne').value,
+    m5_nom: document.getElementById('m5_nom').value, m5_cne: document.getElementById('m5_cne').value,
+    titre_projet: document.getElementById('titre_projet').value,
+    presentateur: document.getElementById('presentateur').value,
+    date1: choice1, date2: choice2
+  };
+
+  // Afficher loading
+  document.getElementById('sec5').classList.remove('active');
+  document.getElementById('submitting').style.display='block';
+  document.getElementById('error-banner').style.display='none';
+
+  if (SCRIPT_URL === "VOTRE_URL_APPS_SCRIPT_ICI") {
+    // Mode démo
+    await new Promise(r=>setTimeout(r,1200));
+    showSuccess(payload, { success:true, message:"Inscription confirmée (démo)" });
+    return;
+  }
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify(payload)
+    });
+    showSuccess(payload, { success: true, message: "Inscription confirmée" });
+  } catch (err) {
+    document.getElementById('submitting').style.display='none';
+    document.getElementById('sec5').classList.add('active');
+    document.getElementById('error-banner').style.display='block';
+    document.getElementById('error-banner').textContent='Erreur : ' + err.message + '. Vérifiez votre connexion ou contactez l\'organisateur.';
+  }
+}
+
+function showSuccess(payload, data) {
+  document.getElementById('submitting').style.display='none';
+  document.getElementById('success').style.display='block';
+  const members=['m1','m2','m3','m4','m5'].map((m,i)=>`
+    <div class="recap-row"><span class="recap-key">Membre ${i+1}</span><span class="recap-val">${payload[m+'_nom']}</span></div>`).join('');
+  document.getElementById('final-recap').innerHTML=`
+    <div class="recap-label">Votre inscription</div>
+    <div class="recap-row"><span class="recap-key">Groupe</span><span class="recap-val">${payload.nom_groupe}</span></div>
+    <div class="recap-row"><span class="recap-key">Responsable</span><span class="recap-val">${payload.nom_resp}</span></div>
+    ${members}
+    <div class="recap-row"><span class="recap-key">Projet</span><span class="recap-val">${payload.titre_projet}</span></div>
+    <div class="recap-row"><span class="recap-key">Présentateur</span><span class="recap-val">${payload.presentateur}</span></div>
+    <div class="recap-row"><span class="recap-key">1er choix</span><span class="recap-val">${payload.date1}</span></div>
+    <div class="recap-row"><span class="recap-key">2ème choix</span><span class="recap-val">${payload.date2}</span></div>
+    <div class="recap-row"><span class="recap-key">Statut</span><span class="recap-val" style="color:#085041">${data.message||'Confirmé'}</span></div>
+  `;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
