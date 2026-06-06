@@ -162,8 +162,8 @@
     <h1>Inscription des groupes<br>aux séances de présentation</h1>
     <div class="masthead-meta">
       <span class="meta-pill">234 doctorants</span>
-      <span class="meta-pill">Groupes de 5</span>
-      <span class="meta-pill">10 min / groupe</span>
+      <span class="meta-pill">Groupes de 1 à 5</span>
+      <span class="meta-pill">3 à 10 min / groupe</span>
       <span class="meta-pill">≤ 16 groupes / date</span>
     </div>
   </div>
@@ -216,7 +216,7 @@
   <!-- SECTION 2 -->
   <div class="section" id="sec2">
     <div class="section-header"><span class="section-num">02 / 05</span><h2 class="section-title">Membres du groupe</h2></div>
-    <div class="notice">ℹ Le groupe doit contenir exactement 5 doctorants. Tous les champs sont obligatoires.</div>
+    <div class="notice">ℹ Le groupe doit contenir entre 1 et 5 doctorants. Le Doctorant 1 est obligatoire. Pour les suivants, si vous renseignez un champ (nom ou CNE), l'autre devient obligatoire.</div>
     <div class="members-grid">
       <div class="member-card">
         <div class="member-card-header"><div class="member-badge">1</div><span class="member-label">Doctorant 1</span><span class="member-req">obligatoire</span></div>
@@ -224,24 +224,24 @@
         <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m1_cne" placeholder="G123456789" /><div class="field-error" id="err-m1_cne">Champ requis.</div></div>
       </div>
       <div class="member-card">
-        <div class="member-card-header"><div class="member-badge">2</div><span class="member-label">Doctorant 2</span><span class="member-req">obligatoire</span></div>
-        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet <span class="req">*</span></label><input type="text" id="m2_nom" placeholder="Nom et prénom" /><div class="field-error" id="err-m2_nom">Champ requis.</div></div>
-        <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m2_cne" placeholder="G123456789" /><div class="field-error" id="err-m2_cne">Champ requis.</div></div>
+        <div class="member-card-header"><div class="member-badge">2</div><span class="member-label">Doctorant 2</span><span class="member-req" id="req-m2" style="color:var(--muted)">facultatif</span></div>
+        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet</label><input type="text" id="m2_nom" placeholder="Nom et prénom" oninput="onMemberInput('m2')" /><div class="field-error" id="err-m2_nom">Champ requis si CNE renseigné.</div></div>
+        <div class="field" style="margin-bottom:0"><label>CNE</label><input type="text" id="m2_cne" placeholder="G123456789" oninput="onMemberInput('m2')" /><div class="field-error" id="err-m2_cne">Champ requis si nom renseigné.</div></div>
       </div>
       <div class="member-card">
-        <div class="member-card-header"><div class="member-badge">3</div><span class="member-label">Doctorant 3</span><span class="member-req">obligatoire</span></div>
-        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet <span class="req">*</span></label><input type="text" id="m3_nom" placeholder="Nom et prénom" /><div class="field-error" id="err-m3_nom">Champ requis.</div></div>
-        <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m3_cne" placeholder="G123456789" /><div class="field-error" id="err-m3_cne">Champ requis.</div></div>
+        <div class="member-card-header"><div class="member-badge">3</div><span class="member-label">Doctorant 3</span><span class="member-req" id="req-m3" style="color:var(--muted)">facultatif</span></div>
+        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet</label><input type="text" id="m3_nom" placeholder="Nom et prénom" oninput="onMemberInput('m3')" /><div class="field-error" id="err-m3_nom">Champ requis si CNE renseigné.</div></div>
+        <div class="field" style="margin-bottom:0"><label>CNE</label><input type="text" id="m3_cne" placeholder="G123456789" oninput="onMemberInput('m3')" /><div class="field-error" id="err-m3_cne">Champ requis si nom renseigné.</div></div>
       </div>
       <div class="member-card">
-        <div class="member-card-header"><div class="member-badge">4</div><span class="member-label">Doctorant 4</span><span class="member-req">obligatoire</span></div>
-        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet <span class="req">*</span></label><input type="text" id="m4_nom" placeholder="Nom et prénom" /><div class="field-error" id="err-m4_nom">Champ requis.</div></div>
-        <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m4_cne" placeholder="G123456789" /><div class="field-error" id="err-m4_cne">Champ requis.</div></div>
+        <div class="member-card-header"><div class="member-badge">4</div><span class="member-label">Doctorant 4</span><span class="member-req" id="req-m4" style="color:var(--muted)">facultatif</span></div>
+        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet</label><input type="text" id="m4_nom" placeholder="Nom et prénom" oninput="onMemberInput('m4')" /><div class="field-error" id="err-m4_nom">Champ requis si CNE renseigné.</div></div>
+        <div class="field" style="margin-bottom:0"><label>CNE</label><input type="text" id="m4_cne" placeholder="G123456789" oninput="onMemberInput('m4')" /><div class="field-error" id="err-m4_cne">Champ requis si nom renseigné.</div></div>
       </div>
       <div class="member-card" style="grid-column:1/-1;max-width:calc(50% - 0.5rem)">
-        <div class="member-card-header"><div class="member-badge">5</div><span class="member-label">Doctorant 5</span><span class="member-req">obligatoire</span></div>
-        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet <span class="req">*</span></label><input type="text" id="m5_nom" placeholder="Nom et prénom" /><div class="field-error" id="err-m5_nom">Champ requis.</div></div>
-        <div class="field" style="margin-bottom:0"><label>CNE <span class="req">*</span></label><input type="text" id="m5_cne" placeholder="G123456789" /><div class="field-error" id="err-m5_cne">Champ requis.</div></div>
+        <div class="member-card-header"><div class="member-badge">5</div><span class="member-label">Doctorant 5</span><span class="member-req" id="req-m5" style="color:var(--muted)">facultatif</span></div>
+        <div class="field" style="margin-bottom:0.75rem"><label>Nom complet</label><input type="text" id="m5_nom" placeholder="Nom et prénom" oninput="onMemberInput('m5')" /><div class="field-error" id="err-m5_nom">Champ requis si CNE renseigné.</div></div>
+        <div class="field" style="margin-bottom:0"><label>CNE</label><input type="text" id="m5_cne" placeholder="G123456789" oninput="onMemberInput('m5')" /><div class="field-error" id="err-m5_cne">Champ requis si nom renseigné.</div></div>
       </div>
     </div>
     <div class="nav-row"><button class="btn btn-ghost" onclick="goTo(1)">← Retour</button><button class="btn btn-primary" onclick="goTo(3)">Suivant →</button></div>
@@ -258,7 +258,7 @@
     <div class="field">
       <label>Nom du présentateur <span class="req">*</span></label>
       <select id="presentateur"><option value="">— Sélectionner parmi les membres du groupe —</option></select>
-      <div class="field-hint">Doit être l'un des 5 membres. Un seul présentateur autorisé.</div>
+      <div class="field-hint">Doit être l'un des membres du groupe. Un seul présentateur autorisé.</div>
       <div class="field-error" id="err-presentateur">Veuillez sélectionner un présentateur.</div>
     </div>
     <div class="nav-row"><button class="btn btn-ghost" onclick="goTo(2)">← Retour</button><button class="btn btn-primary" onclick="goTo(4)">Suivant →</button></div>
@@ -296,9 +296,9 @@
     <div class="rules-box">
       <div class="rules-title">Règles obligatoires</div>
       <ul class="rules-list">
-        <li><span class="icon">→</span>Chaque groupe doit être composé de <strong>exactement 5 doctorants</strong>.</li>
+        <li><span class="icon">→</span>Chaque groupe peut être composé de <strong>1 à 5 doctorants</strong>.</li>
+        <li><span class="icon">→</span>La durée maximale dépend du nombre de doctorants : <strong>1 → 3 min · 2 → 4 min · 3 → 5 min · 4 → 6 min · 5 → 10 min</strong>.</li>
         <li><span class="icon">→</span><strong>Une seule soumission par groupe.</strong> Les doublons seront annulés.</li>
-        <li><span class="icon">→</span>Durée de présentation : <strong>10 minutes</strong> par groupe.</li>
         <li><span class="icon">→</span><strong>Un seul présentateur</strong> autorisé par groupe le jour de la séance.</li>
         <li><span class="icon">→</span>Une date sera <strong>fermée</strong> automatiquement dès qu'elle atteint 16 groupes.</li>
       </ul>
@@ -308,6 +308,8 @@
       <div class="recap-row"><span class="recap-key">Groupe</span><span class="recap-val" id="rc-groupe">—</span></div>
       <div class="recap-row"><span class="recap-key">Responsable</span><span class="recap-val" id="rc-resp">—</span></div>
       <div class="recap-row"><span class="recap-key">Membres</span><span class="recap-val" id="rc-membres">—</span></div>
+      <div class="recap-row"><span class="recap-key">Nombre de doctorants</span><span class="recap-val" id="rc-nb-doctorants">—</span></div>
+      <div class="recap-row"><span class="recap-key">Durée maximale autorisée</span><span class="recap-val" id="rc-duree-max">—</span></div>
       <div class="recap-row"><span class="recap-key">Projet</span><span class="recap-val" id="rc-projet">—</span></div>
       <div class="recap-row"><span class="recap-key">Présentateur</span><span class="recap-val" id="rc-pres">—</span></div>
       <div class="recap-row"><span class="recap-key">1er choix</span><span class="recap-val" id="rc-d1">—</span></div>
@@ -316,7 +318,7 @@
     <div class="field">
       <label style="display:flex;gap:0.6rem;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;color:var(--ink)">
         <input type="checkbox" id="confirm_rules" style="width:auto;height:auto;flex-shrink:0;margin-top:3px" />
-        J'atteste que les informations sont exactes, que mon groupe est composé de 5 doctorants, et que nous avons lu les règles ci-dessus.
+        J'atteste que les informations sont exactes, que mon groupe est composé de 1 à 5 doctorants conformément aux règles, et que nous avons lu les règles ci-dessus.
       </label>
       <div class="field-error" id="err-confirm">Vous devez cocher cette case.</div>
     </div>
@@ -347,7 +349,7 @@
 // ════════════════════════════════════════════════════════
 // ⚠ REMPLACEZ CETTE URL par celle de votre déploiement
 // ════════════════════════════════════════════════════════
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxACpfQR2Saa1EglaDKBsBquIA4kRUZo565FmTNc5Z1yzd_X20yYvWgTh3QvEshbyBp/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykBakVvF3QVjaWN7gP77o3OGYYALqe85oYrANls-rP8CnZrCskpOno2bO4rTu9Gdhh/exec";
 
 let current = 1;
 let choice1 = '', choice2 = '';
@@ -438,7 +440,33 @@ function validate(sec) {
     if (!pass) ok=false;
   };
   if (sec===1) { req('nom_resp'); req('email_resp',v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)); }
-  if (sec===2) { ['m1','m2','m3','m4','m5'].forEach(m=>{req(m+'_nom');req(m+'_cne');}); }
+  if (sec===2) {
+    // Doctorant 1 always required
+    req('m1_nom'); req('m1_cne');
+    // Doctorants 2-5: if either field filled, both required
+    ['m2','m3','m4','m5'].forEach(m => {
+      const nom = document.getElementById(m+'_nom').value.trim();
+      const cne = document.getElementById(m+'_cne').value.trim();
+      const errNom = document.getElementById('err-'+m+'_nom');
+      const errCne = document.getElementById('err-'+m+'_cne');
+      const elNom = document.getElementById(m+'_nom');
+      const elCne = document.getElementById(m+'_cne');
+      if (nom || cne) {
+        // partial entry: both must be filled
+        const nomOk = nom !== '';
+        const cneOk = cne !== '';
+        elNom.classList.toggle('error', !nomOk);
+        errNom.style.display = nomOk ? 'none' : 'block';
+        elCne.classList.toggle('error', !cneOk);
+        errCne.style.display = cneOk ? 'none' : 'block';
+        if (!nomOk || !cneOk) ok = false;
+      } else {
+        elNom.classList.remove('error'); errNom.style.display = 'none';
+        elCne.classList.remove('error'); errCne.style.display = 'none';
+      }
+    });
+    // At least doctorant 1 must be filled (already validated above)
+  }
   if (sec===3) { req('titre_projet'); req('presentateur',v=>v!==''); }
   if (sec===4) {
     const e1=document.getElementById('err-date1'), e2=document.getElementById('err-date2');
@@ -448,13 +476,42 @@ function validate(sec) {
   return ok;
 }
 
+function onMemberInput(m) {
+  const nom = document.getElementById(m+'_nom').value.trim();
+  const cne = document.getElementById(m+'_cne').value.trim();
+  const reqEl = document.getElementById('req-'+m);
+  if (reqEl) {
+    if (nom || cne) {
+      reqEl.textContent = 'obligatoire';
+      reqEl.style.color = 'var(--danger)';
+    } else {
+      reqEl.textContent = 'facultatif';
+      reqEl.style.color = 'var(--muted)';
+    }
+  }
+}
+
+function getDureeMax(nb) {
+  const map = {1:3, 2:4, 3:5, 4:6, 5:10};
+  return map[nb] || 3;
+}
+
+function countDoctorants() {
+  return ['m1','m2','m3','m4','m5'].filter(m => {
+    const nom = document.getElementById(m+'_nom').value.trim();
+    const cne = document.getElementById(m+'_cne').value.trim();
+    return nom && cne;
+  }).length;
+}
+
 function populatePresentateur() {
   const sel = document.getElementById('presentateur');
   const prev = sel.value;
   sel.innerHTML = '<option value="">— Sélectionner parmi les membres du groupe —</option>';
   ['m1','m2','m3','m4','m5'].forEach(m => {
     const n = document.getElementById(m+'_nom').value.trim();
-    if (n) { const o=document.createElement('option');o.value=n;o.textContent=n;if(n===prev)o.selected=true;sel.appendChild(o); }
+    const c = document.getElementById(m+'_cne').value.trim();
+    if (n && c) { const o=document.createElement('option');o.value=n;o.textContent=n;if(n===prev)o.selected=true;sel.appendChild(o); }
   });
 }
 
@@ -481,9 +538,15 @@ function selectDate(el, choice) {
 }
 
 function updateRecap() {
-  const members=['m1','m2','m3','m4','m5'].map(m=>document.getElementById(m+'_nom').value.trim()).filter(Boolean).join(', ');
+  const filledMembers = ['m1','m2','m3','m4','m5']
+    .map(m => document.getElementById(m+'_nom').value.trim())
+    .filter(Boolean);
+  const nb = countDoctorants();
+  const duree = getDureeMax(nb);
   document.getElementById('rc-resp').textContent=document.getElementById('nom_resp').value||'—';
-  document.getElementById('rc-membres').textContent=members||'—';
+  document.getElementById('rc-membres').textContent=filledMembers.join(', ')||'—';
+  document.getElementById('rc-nb-doctorants').textContent = nb + ' doctorant(s)';
+  document.getElementById('rc-duree-max').textContent = duree + ' minutes';
   document.getElementById('rc-projet').textContent=document.getElementById('titre_projet').value||'—';
   document.getElementById('rc-pres').textContent=document.getElementById('presentateur').value||'—';
   document.getElementById('rc-d1').textContent=choice1||'—';
@@ -496,6 +559,7 @@ async function submitForm() {
   if(!cb.checked){errCb.style.display='block';return;}
   errCb.style.display='none';
 
+  const nb = countDoctorants();
   const payload = {
     nom_resp: document.getElementById('nom_resp').value,
     email_resp: document.getElementById('email_resp').value,
@@ -506,7 +570,9 @@ async function submitForm() {
     m5_nom: document.getElementById('m5_nom').value, m5_cne: document.getElementById('m5_cne').value,
     titre_projet: document.getElementById('titre_projet').value,
     presentateur: document.getElementById('presentateur').value,
-    date1: choice1, date2: choice2
+    date1: choice1, date2: choice2,
+    nombre_doctorants: nb,
+    duree_max_presentation: getDureeMax(nb)
   };
 
   // Afficher loading
@@ -539,12 +605,16 @@ async function submitForm() {
 function showSuccess(payload, data) {
   document.getElementById('submitting').style.display='none';
   document.getElementById('success').style.display='block';
-  const members=['m1','m2','m3','m4','m5'].map((m,i)=>`
-    <div class="recap-row"><span class="recap-key">Membre ${i+1}</span><span class="recap-val">${payload[m+'_nom']}</span></div>`).join('');
+  const members=['m1','m2','m3','m4','m5']
+    .filter((m,i)=>payload[m+'_nom'])
+    .map((m,i)=>`<div class="recap-row"><span class="recap-key">Membre ${['m1','m2','m3','m4','m5'].indexOf(m)+1}</span><span class="recap-val">${payload[m+'_nom']}</span></div>`)
+    .join('');
   document.getElementById('final-recap').innerHTML=`
     <div class="recap-label">Votre inscription</div>
     <div class="recap-row"><span class="recap-key">Responsable</span><span class="recap-val">${payload.nom_resp}</span></div>
     ${members}
+    <div class="recap-row"><span class="recap-key">Nombre de doctorants</span><span class="recap-val">${payload.nombre_doctorants}</span></div>
+    <div class="recap-row"><span class="recap-key">Durée maximale</span><span class="recap-val">${payload.duree_max_presentation} min</span></div>
     <div class="recap-row"><span class="recap-key">Projet</span><span class="recap-val">${payload.titre_projet}</span></div>
     <div class="recap-row"><span class="recap-key">Présentateur</span><span class="recap-val">${payload.presentateur}</span></div>
     <div class="recap-row"><span class="recap-key">1er choix</span><span class="recap-val">${payload.date1}</span></div>
